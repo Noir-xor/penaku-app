@@ -1,4 +1,4 @@
-import { fetchAccessToken } from '../Utils/auth';
+import { fetchAccessToken } from '../utils/auth';
 
 const BASE_URL = 'https://story-api.dicoding.dev/v1';
 
@@ -67,7 +67,7 @@ export async function getStoryDetail(id) {
   return response.json();
 }
 
-export async function storeNewReport({ description, photo, lat, lon }) {
+export async function storeNewstories({ description, photo, lat, lon }) {
   const token = fetchAccessToken();
   const formData = new FormData();
   
@@ -142,12 +142,12 @@ export async function unsubscribeWebPush({ endpoint }) {
   };
 }
 
-export async function sendReportToMeViaNotification(reportId) {
+export async function sendstoriesToMeViaNotification(storiesId) {
   // Simulasi kirim notifikasi berdasarkan ID laporan
   const token = fetchAccessToken();
 
   // Misal endpoint API-nya seperti ini (anggap ini dummy dulu)
-  const response = await fetch(`${BASE_URL}/notifications/send/${reportId}`, {
+  const response = await fetch(`${BASE_URL}/notifications/send/${storiesId}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

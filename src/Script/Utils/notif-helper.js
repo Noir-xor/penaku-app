@@ -1,7 +1,7 @@
 // utils/notification-helper.js
 import { base64ToUint8Array } from './index';
 import { VAPID_PUBLIC_KEY } from '../config';
-import { subscribeWebPush, unsubscribeWebPush } from '../Data/api';
+import { subscribeWebPush, unsubscribeWebPush } from '../data/api';
 
 // Mengecek apakah browser mendukung Notification API
 export function canUseNotification() {

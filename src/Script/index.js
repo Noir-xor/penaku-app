@@ -5,9 +5,9 @@ import 'tiny-slider/dist/tiny-slider.css';
 import 'leaflet/dist/leaflet.css';
 
 // Mengimpor komponen utama aplikasi dan utilitas kamera
-import App from './Pages/app';
-import Camera from './Utils/camera';
-import { registerServiceWorker } from './Utils/index';
+import App from './pages/app.js';
+import Camera from './utils/camera.js';
+import { registerServiceWorker } from './utils/index.js';
 
 // Menunggu seluruh elemen HTML dimuat sebelum menjalankan logika aplikasi
 document.addEventListener('DOMContentLoaded', async () => {

@@ -2,69 +2,78 @@
 
 import {
   createLoaderAbsoluteHTML,
-createReportDetailHTML,
-  createReportDetailErrorHTML ,
-  createSaveReportButtonHTML,
-  createRemoveReportButtonHTML,
+  createstoriesDetailHTML,
+  createstoriesDetailErrorHTML ,
+  createSavestoriesButtonHTML,
+  createRemovestoriesButtonHTML,
 } from '../../templates';
-import { initCarousel } from '../../Utils/index';
-import ReportDetailPresenter from './report-detail-presenter';
+import { initCarousel } from '../../utils/index';
+import storiesDetailPresenter from '../stories-detail/stories-detail-presenter';
 import { parseActivePathname } from '../../routes/url-parser';
-import CustomMap from '../../Utils/map'
-import * as PenaKuAPI from '../../Data/api';
+import CustomMap from '../../utils/map';
+import * as PenaKuAPI from '../../data/api';
 
-export default class ReportDetailPage {
+export default class storiesDetailPage {
   #presenter = null;
   #form = null;
   #map = null;
 
-  async render() {
-    return `
-      <section>
-        <div class="stories-detail__container">
-          <div id="stories-detail" class="stories-detail"></div>
-          <div id="stories-detail-loading-container"></div>
-        </div>
-      </section>
-       <div id="stories-detail-notify-me" class="map-loading">
+async render() {
+  return `
+    <section class="stories-detail__container">
+      <div id="stories-detail" class="stories-detail"></div>
+      <div id="map" class="map" style="height: 300px;"></div>
+      <div id="stories-detail-loading-container"></div>
+    </section>
 
-      <section class="container">
-      
-        <hr>
-        <div class="stories-detail__comments__container">
-          <div class="stories-detail__comments-form__container">
-            <h2 class="stories-detail__comments-form__title">Give Feedback</h2>
-            <form id="comments-list-form" class="stories-detail__comments-form__form">
-              <textarea name="body" placeholder="Share your story on this app."></textarea>
-              <div id="submit-button-container">
-                <button class="btn" type="submit">Share</button>
-              </div>
-            </form>
+    <section class="container stories-detail__comments__container">
+      <hr class="divider" />
+
+      <div class="stories-detail__comments-form__container">
+        <h2 class="stories-detail__comments-form__title">
+          <i class="fas fa-comment-dots"></i> Give Feedback
+        </h2>
+        <form id="comments-list-form" class="stories-detail__comments-form__form">
+          <textarea
+            name="body"
+            placeholder="Tell us what you think about this story..."
+            class="form-control"
+          ></textarea>
+          <div id="submit-button-container" class="submit-button-container">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-paper-plane"></i> Share
+            </button>
           </div>
-          <hr>
-          <div class="stories-detail__comments-list__container">
-            <div id="stories-detail-comments-list"></div>
-            <div id="comments-list-loading-container"></div>
-          </div>
-        </div>
-       <div id="map-container" style="height: 400px;"></div>
-      </section>
-    `;
-  }
+        </form>
+      </div>
 
-  async afterRender() {
-    this.#presenter = new ReportDetailPresenter(parseActivePathname().id, {
-      view: this,
-      apiModel: PenaKuAPI,
-    });
+      <hr class="divider" />
 
-    this.#initializeCommentForm();
+      <div class="stories-detail__comments-list__container">
+        <h3 class="stories-detail__comments-form__title">
+          <i class="fas fa-comments"></i> All Comments
+        </h3>
+        <div id="stories-detail-comments-list" class="comments-list"></div>
+        <div id="comments-list-loading-container"></div>
+      </div>
+    </section>
+  `;
+}
 
-    this.#presenter.displayReportDetails();
-  }
 
-  async loadReportDetailAndMap(message, stories) {
-    document.getElementById('stories-detail').innerHTML = createReportDetailHTML({
+async afterRender() {
+  this.#presenter = new storiesDetailPresenter(parseActivePathname().id, {
+    view: this,
+    apiModel: PenaKuAPI,
+  });
+
+  this.#initializeCommentForm();
+
+  this.#presenter.displaystoriesDetails();
+}
+
+  async loadstoriesDetailAndMap(message, stories) {
+    document.getElementById('stories-detail').innerHTML = createstoriesDetailHTML({
       name: stories.name,
       description: stories.description,
       photoUrl: stories.photoUrl,
@@ -74,25 +83,25 @@ export default class ReportDetailPage {
     });
 
   
-    await this.#presenter.displayReportDetail();
+    await this.#presenter.displaystoriesDetail();
   
     this.#presenter.displaySaveButton();
     this.#addNotificationListener();
 
     // marker ke peta
     if (stories.lat && stories.lon) {
-      this.map.addMarker([stories.lat, stories.lon], {
+      this.#map.addMarker([stories.lat, stories.lon], {
         popup: {
           content: `<b>${stories.name}</b><br>${stories.description}`,
         },
       });
 
-      this.map.setView([stories.lat, stories.lon], 15);
+      this.#map.setView([stories.lat, stories.lon], 15);
     }
   }  
 
-  renderReportDetailError(message) {
-    document.getElementById('stories-detail').innerHTML = createReportDetailErrorHTML(message);
+  renderstoriesDetailError(message) {
+    document.getElementById('stories-detail').innerHTML = createstoriesDetailErrorHTML(message);
   }
 
   renderCommentsList(message, comments) {
@@ -126,17 +135,17 @@ export default class ReportDetailPage {
 
   async initialMap() {
   try {
-    this.map = await CustomMap.build('#map', {
+    this.#map = await CustomMap.build('#map', {
       locate: true, // Atur peta ke lokasi pengguna jika tersedia
       zoom: 15,
     });
 
     // Misalnya, tambahkan listener klik di peta
-    this.map.addMapEventListener('click', async (event) => {
+    this.#map.addMapEventListener('click', async (event) => {
       const { lat, lng } = event.latlng;
-      const placeName = await this.map.getPlaceNameByCoordinate(lat, lng);
+      const placeName = await this.#map.getPlaceNameByCoordinate(lat, lng);
 
-      this.map.addMarker([lat, lng], {
+      this.#map.addMarker([lat, lng], {
         popup: {
           content: `Anda mengklik: ${placeName}`,
         },
@@ -161,7 +170,7 @@ export default class ReportDetailPage {
 
   handleCommentPostSuccess(message) {
     console.log(message);
-    this.#presenter.loadReportComments();
+    this.#presenter.loadstoriesComments();
     this.#resetForm();
   }
 
@@ -174,23 +183,23 @@ export default class ReportDetailPage {
   }
 
 renderSaveButton() {
-  document.getElementById('submit-button-container').innerHTML = createSaveReportButtonHTML();
+  document.getElementById('submit-button-container').innerHTML = createSavestoriesButtonHTML();
   document.getElementById('stories-detail-save').addEventListener('click', () => {
-    this.#presenter.saveReport();
+    this.#presenter.savestories();
   });
 }
 
 renderRemoveButton() {
-  document.getElementById('submit-button-container').innerHTML = createRemoveReportButtonHTML();
+  document.getElementById('submit-button-container').innerHTML = createRemovestoriesButtonHTML();
   document.getElementById('stories-detail-remove').addEventListener('click', () => {
-    this.#presenter.removeReport();
+    this.#presenter.removestories();
   });
 }
 
 
   #addNotificationListener() {
     document.getElementById('stories-detail-notify-me').addEventListener('click', () => {
-      this.#presenter.sendReportNotification();
+      this.#presenter.sendstoriesNotification();
     });
   }
 

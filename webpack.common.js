@@ -3,15 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
   entry: {
-    app: path.resolve(__dirname, 'src/Script/index.js'),
-    sw: path.resolve(__dirname, 'src/Public/sw.js'), // ✅ Tambahkan SW sebagai entry point
+    app: path.resolve(__dirname, 'src/script/index.js'),
+    // sw: path.resolve(__dirname, 'src/public/sw.js'), // ✅ Tambahkan SW sebagai entry point
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js', // gunakan [name] untuk app.bundle.js & sw.bundle.js
-    publicPath: '/', // untuk mendukung SPA
+    path: path.resolve(__dirname, 'dist'),
+    //publicPath: '/', // untuk mendukung SPA
   },
   module: {
     rules: [
@@ -24,7 +23,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/Index.html'),
-      excludeChunks: ['sw'], // ✅ Jangan suntikkan sw.bundle.js ke HTML
+      // excludeChunks: ['sw'], // ✅ Jangan suntikkan sw.bundle.js ke HTML
     }),
     new CopyWebpackPlugin({
       patterns: [

@@ -10,11 +10,11 @@ export default class HomePresenter {
   /**
    * Menampilkan peta laporan kerusakan dengan indikator loading.
    */
-  async displayReportDetail() {
+  async displaystoriesDetail() {
     try {
       await this.#view.initialMap();
     } catch (error) {
-      console.error('displayReportDetail: Terjadi kesalahan saat menampilkan peta:', error);
+      console.error('displaystoriesDetail: Terjadi kesalahan saat menampilkan peta:', error);
     } finally {
       this.#view.hideLoading();
     }
@@ -23,26 +23,26 @@ export default class HomePresenter {
   /**
    * Inisialisasi halaman: memuat peta dan daftar cerita.
    */
-  async initializeReportsPage() {
+  async initializestoriessPage() {
     try {
       // Tampilkan peta terlebih dahulu
-      await this.displayReportDetail();
+      await this.displaystoriesDetail();
 
       // Ambil semua laporan dari API
       const response = await this.#model.getAllStories();
 
       // Validasi respons berdasarkan struktur API
       if (response?.error === true || !Array.isArray(response?.listStory)) {
-        console.error('initializeReportsPage: Gagal mengambil laporan:', response);
-        this.#view.populateReportsListError(response?.message || 'Gagal mengambil data laporan.');
+        console.error('initializestoriessPage: Gagal mengambil laporan:', response);
+        this.#view.populatestoriessListError(response?.message || 'Gagal mengambil data laporan.');
         return;
       }
 
       // Tampilkan laporan jika berhasil
-      this.#view.populateReportsList(response.message, response.listStory);
+      this.#view.populatestoriessList(response.message, response.listStory);
     } catch (error) {
-      console.error('initializeReportsPage: Error umum:', error);
-      this.#view.populateReportsListError(error.message || 'Terjadi kesalahan saat mengambil laporan.');
+      console.error('initializestoriessPage: Error umum:', error);
+      this.#view.populatestoriessListError(error.message || 'Terjadi kesalahan saat mengambil laporan.');
     } finally {
       this.#view.hideLoading();
     }

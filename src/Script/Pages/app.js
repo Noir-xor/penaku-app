@@ -1,7 +1,7 @@
 import { getActiveRoute } from '../routes/url-parser';
 import {
-  createReportItemHTML,
-  createReportsErrorHTML,
+  createstoriesItemHTML,
+  createstoriessErrorHTML,
   createLoaderAbsoluteHTML,
   createAuthenticatedNavigationListHTML,
   createMainNavigationListHTML,
@@ -9,11 +9,11 @@ import {
   createUnauthenticatedNavigationListHTML,
   createUnsubscribeButtonHTML,
 } from '../templates';
-import { isServiceWorkerAvailable } from '../Utils/index';
-import { enableSkipToContent, handleViewTransition } from '../Utils';
-import { fetchAccessToken, logoutUser } from '../Utils/auth';
+import { isServiceWorkerAvailable } from '../utils/index';
+import { enableSkipToContent, handleViewTransition } from '../utils';
+import { fetchAccessToken, logoutUser } from '../utils/auth';
 import { routes } from '../routes/routes';
-import { handlePushSubscribe, handlePushUnsubscribe, isPushSubscribed } from '../Utils/notif-helper';
+import { handlePushSubscribe, handlePushUnsubscribe, isPushSubscribed } from '../utils/notif-helper';
 
 export default class App {
   #content;

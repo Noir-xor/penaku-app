@@ -1,11 +1,12 @@
 import {
-  createReportItemHTML,
-  createReportsErrorHTML,
-  createLoaderAbsoluteHTML, 
+  createstoriesItemHTML,
+  createstoriessErrorHTML,
+  createLoaderAbsoluteHTML,
 } from '../../templates';
 import HomePresenter from './home-presenter';
-import * as PenaKuAPI from '../../Data/api';
+import * as PenaKuAPI from '../../data/api';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 export default class HomePage {
   #presenter = null;
@@ -42,22 +43,22 @@ export default class HomePage {
       model: PenaKuAPI,
     });
 
-    await this.#presenter.initializeReportsPage();
+    await this.#presenter.initializestoriessPage();
   }
 
   /**
    * Menampilkan daftar cerita ke dalam elemen HTML.
    * Jika data kosong, tampilkan tampilan kosong.
    */
-  populateReportsList(message, listStory) {
+  populatestoriessList(message, listStory) {
     if (listStory.length === 0) {
-      this.populateReportsListEmpty();
+      this.populatestoriessListEmpty();
       return;
     }
 
     const listStoryHTML = listStory
       .map((stories) =>
-        createReportItemHTML({
+        createstoriesItemHTML({
           ...stories,
           storieserName: stories.name,
         }),
@@ -72,39 +73,37 @@ export default class HomePage {
   /**
    * Menampilkan tampilan kosong ketika tidak ada laporan.
    */
-  populateReportsListEmpty() {
-    document.getElementById('listStory-list').innerHTML = createReportItemHTML();
+  populatestoriessListEmpty() {
+    document.getElementById('listStory-list').innerHTML = createstoriesItemHTML();
   }
 
   /**
    * Menampilkan pesan kesalahan saat gagal memuat laporan.
    */
-  populateReportsListError(message) {
-    document.getElementById('listStory-list').innerHTML = createReportsErrorHTML(message);
+  populatestoriessListError(message) {
+    document.getElementById('listStory-list').innerHTML = createstoriessErrorHTML(message);
   }
 
-async initialMap() {
-  const L = await import('leaflet');
+  async initialMap() {
+    // Hapus map sebelumnya jika sudah ada
+    if (this._map) {
+      this._map.remove();
+    }
 
-  // Hapus map sebelumnya jika sudah ada
-  if (this._map) {
-    this._map.remove();
+    // Inisialisasi map baru
+    this._map = L.map('map').setView([-6.2, 106.816666], 11);
+
+    // Tambahkan tile layer dari OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(this._map);
+
+    // Tambahkan listener untuk ambil koordinat tengah setelah peta digeser
+    this._map.on('moveend', () => {
+      const center = this._map.getCenter();
+      console.log('Koordinat tengah:', center.lat, center.lng);
+    });
   }
-
-  // Inisialisasi map baru
-  this._map = L.map('map').setView([-6.200000, 106.816666], 11);
-
-  // Tambahkan tile layer dari OpenStreetMap
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-  }).addTo(this._map); 
-
-  // Tambahkan listener untuk ambil koordinat tengah setelah peta digeser
-  this._map.on('moveend', () => {
-    const center = this._map.getCenter();
-    console.log('Koordinat tengah:', center.lat, center.lng);
-  });
-}
   /**
    * Menghapus loading spinner dari daftar laporan.
    */

@@ -1,4 +1,4 @@
-export default class BookmarkPage {
+export default class bookmarkpage {
   async render() {
     return '';
   }

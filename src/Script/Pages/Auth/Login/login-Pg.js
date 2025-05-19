@@ -1,6 +1,6 @@
-import LoginPresenter from '../../Auth/Login/login-presenter';
-import * as PenaKuAPI from '../../../Data/api';
-import * as AuthModel from '../../../Utils/auth';
+import LoginPresenter from './login-presenter';
+import * as PenaKuAPI from '../../../data/api';
+import * as AuthModel from '../../../utils/auth';
 
 export default class LoginPage {
   #presenter = null;

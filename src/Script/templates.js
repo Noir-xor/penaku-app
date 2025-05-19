@@ -1,10 +1,10 @@
-import { showFormattedDate } from './Utils';
+import { showFormattedDate } from './utils';
 
 export function createLoaderAbsoluteHTML() {
   return `<div class="loader"></div>`;
 }
 
-export function createReportsErrorHTML(message) {
+export function createstoriessErrorHTML(message) {
   return `
     <div id="listStory-list-error" class="listStory-list__error">
       <h2>A story list retrieval error occurred</h2>
@@ -36,7 +36,7 @@ export function createAuthenticatedNavigationListHTML() {
   `;
 }
 
-export function createReportsListEmptyHTML() {
+export function createstoriessListEmptyHTML() {
   return `
     <div id="listStory-list-empty" class="listStory-list__empty">
       <h2>Tidak ada laporan yang tersedia</h2>
@@ -45,7 +45,7 @@ export function createReportsListEmptyHTML() {
   `;
 }
 
-export function createReportDetailErrorHTML(message) {
+export function createstoriesDetailErrorHTML(message) {
   return `
     <div id="listStory-list-error" class="listStory-list__error">
       <h2>Terjadi kesalahan pengambilan daftar cerita</h2>
@@ -73,7 +73,7 @@ export function createCommentsListErrorHTML(message) {
 }
 
 
-export function createReportItemHTML({
+export function createstoriesItemHTML({
   id,
   name,
   description,
@@ -100,7 +100,7 @@ export function createReportItemHTML({
   `;
 }
 
-export function createReportDetailImageHTML(imageUrl = null, alt = '') {
+export function createstoriesDetailImageHTML(imageUrl = null, alt = '') {
   if (!imageUrl) {
     return `
       <img class="stories-detail__image" src="images/placeholder-image.jpg" alt="Placeholder Image">
@@ -112,7 +112,7 @@ export function createReportDetailImageHTML(imageUrl = null, alt = '') {
   `;
 }
 
-export function createReportCommentItemHTML({ photoUrlCommenter, nameCommenter, body }) {
+export function createstoriesCommentItemHTML({ photoUrlCommenter, nameCommenter, body }) {
   return `
     <article tabindex="0" class="stories-detail__comment-item">
       <img
@@ -130,7 +130,7 @@ export function createReportCommentItemHTML({ photoUrlCommenter, nameCommenter, 
   `;
 }
 
-export function createReportDetailHTML({
+export function createstoriesDetailHTML({
   name,
   description,
   photoUrl,
@@ -139,19 +139,19 @@ export function createReportDetailHTML({
   createdAt,
 }) {
   const createdAtFormatted = showFormattedDate(createdAt, 'id-ID');
-  const imageHtml = createReportDetailImageHTML(photoUrl, name);
+  const imageHtml = createstoriesDetailImageHTML(photoUrl, name);
 
   return `
     <div class="stories-detail__header">
       <div class="stories-detail__more-info">
         <div class="stories-detail__more-info__inline">
-          <div id="createdat" class="stories-detail__createdat" data-value="${createdAtFormatted}">
+          <div id="createdat" class="stories-detail__createdat">
             <i class="fas fa-calendar-alt"></i> ${createdAtFormatted}
           </div>
         </div>
         <div class="stories-detail__more-info__inline">
-          <div id="location-latitude" class="stories-detail__location__latitude" data-value="${lat}">Latitude: ${lat}</div>
-          <div id="location-longitude" class="stories-detail__location__longitude" data-value="${lon}">Longitude: ${lon}</div>
+          <div id="location-latitude" class="stories-detail__location__latitude">Latitude: ${lat}</div>
+          <div id="location-longitude" class="stories-detail__location__longitude">Longitude: ${lon}</div>
         </div>
         <div id="author" class="stories-detail__author" data-value="${name}">Dilaporkan oleh: ${name}</div>
       </div>
@@ -208,7 +208,7 @@ export function createUnsubscribeButtonHTML() {
   `;
 }
 
-export function createSaveReportButtonHTML() {
+export function createSavestoriesButtonHTML() {
   return `
     <button id="stories-detail-save" class="btn btn-transparent">
       Simpan laporan <i class="far fa-bookmark"></i>
@@ -216,7 +216,7 @@ export function createSaveReportButtonHTML() {
   `;
 }
 
-export function createRemoveReportButtonHTML() {
+export function createRemovestoriesButtonHTML() {
   return `
     <button id="stories-detail-remove" class="btn btn-transparent">
       Buang laporan <i class="fas fa-bookmark"></i>

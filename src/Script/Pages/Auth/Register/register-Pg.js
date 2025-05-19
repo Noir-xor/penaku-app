@@ -1,5 +1,5 @@
-import RegisterPresenter from './Register-presenter';
-import * as PenaKuAPI from '../../../Data/api';
+import RegisterPresenter from './register-presenter';
+import * as PenaKuAPI from '../../../data/api';
 
 export default class RegisterPage {
   #presenter = null;
