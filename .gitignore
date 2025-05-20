@@ -1,2 +1,9 @@
 node_modules/
 dist/
+
+# git mv src/Public src/public
+# git mv src/Script src/script
+# git mv src/Styles src/styles
+# git mv src/Script/Data src/script/data
+# git mv src/Script/Pages src/script/pages
+# git mv src/Script/Utils src/script/Utils
